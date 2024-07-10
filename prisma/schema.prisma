@@ -16,6 +16,8 @@ model Trip {
   isCancelled  Boolean       @default(false)
   createdAt    DateTime      @default(now())
   participants Participant[]
+  activities   Activity[]
+  links        Link[]
 
   @@map("trips")
 }
@@ -31,4 +33,28 @@ model Participant {
   createdAt   DateTime @default(now())
 
   @@map("participants")
+}
+
+model Activity {
+  id        String   @id @default(uuid())
+  title     String
+  date      DateTime
+  createdAt DateTime @default(now())
+
+  tripId String
+  trip   Trip   @relation(fields: [tripId], references: [id])
+
+  @@map("activities")
+}
+
+model Link {
+  id        String   @id @default(uuid())
+  title     String
+  url       String
+  createdAt DateTime @default(now())
+
+  tripId String
+  trip   Trip   @relation(fields: [tripId], references: [id])
+
+  @@map("links")
 }
