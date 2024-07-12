@@ -13,6 +13,8 @@ import { createInvite } from './routes/create-invite';
 import { updateTrip } from './routes/update-trip';
 import { getTripDetails } from './routes/get-trip-details';
 import { getParticipant } from './routes/get-participant';
+import { errorHandler } from './error-handler';
+import { env } from './env';
 
 const app = fastify();
 
@@ -22,6 +24,8 @@ app.register(cors, {
 
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
+
+app.setErrorHandler(errorHandler);
 
 app.register(createTrip);
 app.register(confirmTrip);
@@ -36,8 +40,8 @@ app.register(updateTrip);
 app.register(getTripDetails);
 app.register(getParticipant);
 
-app.listen({ port: 3000 }, (err, address) => {
-  address = 'http://localhost:3000';
+app.listen({ port: env.PORT }, (err, address) => {
+  address = env.API_BASE_URL;
 
   if (err) {
     console.error(err);
